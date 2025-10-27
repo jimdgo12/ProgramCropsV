@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('diseases', function (Blueprint $table) {
             $table->id();
+            $table->string('nameCommon',50);
+            $table->string('nameScientific',200);
+            $table->text('description');
+            $table->text('diagnosis');
+            $table->text('symptoms');
+            $table->text('transmission');
+            $table->string('type',50);
+            $table->string('image');
+            $table->timestamps();
             $table->timestamps();
         });
     }

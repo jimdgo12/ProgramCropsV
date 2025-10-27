@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('pesticides', function (Blueprint $table) {
             $table->id();
+            $table->string('name',100);
+            $table->text('description');
+            $table->string('activeIngredient',200);
+            $table->integer('price');
+            $table->string('type',50);
+            $table->string('dose',200);
+            $table->string('image');
             $table->timestamps();
         });
     }

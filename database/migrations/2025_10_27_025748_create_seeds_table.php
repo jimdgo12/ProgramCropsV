@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('seeds', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name', 100);
+            $table->string('nameScientific', 200);
+            $table->string('origin', 100);
+            $table->string('morphology', 200);
+            $table->string('type', 50);
+            $table->string('quality', 50);
+            $table->string('spreading', 50);
+            $table->string('image');
+            $table->foreignId('crop_id')->constrained('crops');
+            $table->timestamps();       
+            
         });
     }
 

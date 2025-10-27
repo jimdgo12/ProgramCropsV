@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('crops', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 50);
+            $table->text('description');
+            $table->string('nameScientific', 200);
+            $table->text('history');
+            $table->text('phaseFertilizer');
+            $table->text('phaseHarvest');
+            $table->text('spreading');
+            $table->string('image');
+
             $table->timestamps();
         });
     }

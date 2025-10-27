@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('crop_fertilizers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('crop_id')->constrained('crops');
+            $table->foreignId('fertilizer_id')->constrained('fertilizers');
             $table->timestamps();
         });
     }
