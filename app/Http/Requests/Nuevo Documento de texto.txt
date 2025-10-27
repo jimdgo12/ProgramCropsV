@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreSeedRequest extends FormRequest
+{
+    /**
+     * Determina si el usuario está autorizado para hacer esta petición.
+     */
+    public function authorize(): bool
+    {
+        return true; 
+    }
+
+    /**
+     * Obtiene las reglas de validación que se aplican al request.
+     */
+    public function rules(): array
+    {
+        return [
+            // Campos principales de Seed (ajusta según tu migración)
+            'varietyName' => ['required', 'string', 'max:100', 'unique:seeds,varietyName'], // Nombre único y obligatorio
+            'germinationRate' => ['required', 'integer', 'min:0', 'max:100'],
+            'plantingDepth' => ['nullable', 'string', 'max:50'],
+            'image' => ['nullable', 'url', 'max:255'],
+            
+            // Clave Foránea N:1
+            // 'required' y 'exists:crops,id' asegura que el ID del cultivo es válido.
+            'crop_id' => ['required', 'integer', 'exists:crops,id'], 
+        ];
+    }
+}

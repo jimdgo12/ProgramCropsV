@@ -21,8 +21,7 @@ return new class extends Migration
             $table->text('transmission');
             $table->string('type',50);
             $table->string('image');
-            $table->timestamps();
-            $table->timestamps();
+            $table->timestamps();            
         });
     }
 

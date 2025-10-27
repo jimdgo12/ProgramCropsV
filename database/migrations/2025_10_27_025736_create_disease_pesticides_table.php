@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('disease_id')->constrained('diseases');
             $table->foreignId('pesticide_id')->constrained('pesticides');
-
-
             $table->timestamps();
         });
     }

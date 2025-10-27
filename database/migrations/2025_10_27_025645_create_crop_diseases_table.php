@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('crop_diseases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('crop_id')->constrained('crops');
-            $table->foreignId('disease_id')->constrained('diseases');
-            $table->timestamps();
+            $table->foreignId('disease_id')->constrained('diseases');            
             $table->timestamps();
         });
     }

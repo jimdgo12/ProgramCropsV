@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('phaseHarvest');
             $table->text('spreading');
             $table->string('image');
-
             $table->timestamps();
         });
     }
