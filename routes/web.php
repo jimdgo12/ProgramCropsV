@@ -1,41 +1,81 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\CropController;
-use App\Http\Controllers\Api\V1\DiseaseController;
-use App\Http\Controllers\Api\V1\SeedController;
-use App\Http\Controllers\Api\V1\FertilizerController;
-use App\Http\Controllers\Api\V1\PesticideController;
+use Inertia\Inertia;
+use App\Models\Crop;
+use App\Models\Seed;
+use App\Models\Disease;
+use App\Models\Fertilizer;
+use App\Models\Pesticide;
 
-Route::prefix('api/v1')->name('api.v1.')->group(function () {
-    
-    // 🌾 Cultivos
-    Route::get('crops', [CropController::class, 'index'])->name('crops.index');
-    Route::post('crops', [CropController::class, 'store'])->name('crops.store');
-    Route::put('crops/{id}', [CropController::class, 'update'])->name('crops.update');
-    Route::delete('crops/{id}', [CropController::class, 'destroy'])->name('crops.destroy');
+//================== RUTAS VUE (PÚBLICAS) ========================
 
-    // 🦠 Enfermedades
-    Route::get('diseases', [DiseaseController::class, 'index'])->name('diseases.index');
-    Route::post('diseases', [DiseaseController::class, 'store'])->name('diseases.store');
-    Route::put('diseases/{id}', [DiseaseController::class, 'update'])->name('diseases.update');
-    Route::delete('diseases/{id}', [DiseaseController::class, 'destroy'])->name('diseases.destroy');
+// Página principal
+Route::get('/', fn () => Inertia::render('home/Index'))->name('index');
 
-    // 🌱 Semillas
-    Route::get('seeds', [SeedController::class, 'index'])->name('seeds.index');
-    Route::post('seeds', [SeedController::class, 'store'])->name('seeds.store');
-    Route::put('seeds/{id}', [SeedController::class, 'update'])->name('seeds.update');
-    Route::delete('seeds/{id}', [SeedController::class, 'destroy'])->name('seeds.destroy');
+// Información por entidad
+Route::get('/information-crop/{id}', function ($id) {
+    $crop = Crop::with(['diseases', 'fertilizers', 'seeds'])->findOrFail($id);
+    return Inertia::render('home/InformationCrop', ['crop' => $crop]);
+})->name('informationCrop');
 
-    // 🧪 Fertilizantes
-    Route::get('fertilizers', [FertilizerController::class, 'index'])->name('fertilizers.index');
-    Route::post('fertilizers', [FertilizerController::class, 'store'])->name('fertilizers.store');
-    Route::put('fertilizers/{id}', [FertilizerController::class, 'update'])->name('fertilizers.update');
-    Route::delete('fertilizers/{id}', [FertilizerController::class, 'destroy'])->name('fertilizers.destroy');
+Route::get('/information-seeds/{id}', function ($id) {
+    $seed = Seed::with('crops')->findOrFail($id);
+    return Inertia::render('home/InformationSeeds', ['seed' => $seed]);
+})->name('informationSeeds');
 
-    // 🐞 Pesticidas
-    Route::get('pesticides', [PesticideController::class, 'index'])->name('pesticides.index');
-    Route::post('pesticides', [PesticideController::class, 'store'])->name('pesticides.store');
-    Route::put('pesticides/{id}', [PesticideController::class, 'update'])->name('pesticides.update');
-    Route::delete('pesticides/{id}', [PesticideController::class, 'destroy'])->name('pesticides.destroy');
+Route::get('/information-diseases/{id}', function ($id) {
+    $disease = Disease::with('crops')->findOrFail($id);
+    return Inertia::render('home/InformationDiseases', ['disease' => $disease]);
+})->name('informationDiseases');
+
+Route::get('/information-fertilizers/{id}', function ($id) {
+    $fertilizer = Fertilizer::with('crops')->findOrFail($id);
+    return Inertia::render('home/InformationFertilizer', ['fertilizer' => $fertilizer]);
+})->name('informationFertilizers');
+
+Route::get('/information-pesticides/{crop}/{disease}', function ($crop, $disease) {
+    $pesticides = Pesticide::where('crop_id', $crop)
+        ->where('disease_id', $disease)
+        ->get();
+    return Inertia::render('home/InformationPesticides', ['pesticides' => $pesticides]);
+})->name('informationPesticides');
+
+
+//================== RUTAS ADMIN (VUE) ==========================
+Route::get('/admin/welcome', fn () => Inertia::render('admin/Welcome'))->name('WelcomeAdmin');
+
+Route::get('/admin/crops', fn () => Inertia::render('admin/Crops/Index'))->name('admin.crops.index');
+Route::get('/admin/seeds', fn () => Inertia::render('admin/Seeds/Index'))->name('admin.seeds.index');
+Route::get('/admin/fertilizers', fn () => Inertia::render('admin/Fertilizers/Index'))->name('admin.fertilizers.index');
+Route::get('/admin/diseases', fn () => Inertia::render('admin/Diseases/Index'))->name('admin.diseases.index');
+Route::get('/admin/pesticides', fn () => Inertia::render('admin/Pesticides/Index'))->name('admin.pesticides.index');
+
+// Rutas específicas por entidad
+Route::get('/admin/diseases/crop/{id}', function ($id) {
+    $crop = Crop::with('diseases')->findOrFail($id);
+    return Inertia::render('admin/Diseases/CropDiseases', ['crop' => $crop]);
+})->name('admin.diseases.crop');
+
+Route::get('/admin/fertilizers/crop/{id}', function ($id) {
+    $crop = Crop::with('fertilizers')->findOrFail($id);
+    return Inertia::render('admin/Fertilizers/CropFertilizers', ['crop' => $crop]);
 });
+
+Route::get('/admin/pesticides/disease/{id}', function ($id) {
+    $disease = Disease::with('pesticides')->findOrFail($id);
+    return Inertia::render('admin/Pesticides/DiseasePesticides', ['disease' => $disease]);
+});
+
+
+//================= RUTAS DE SESIÓN (VUE) =======================
+Route::get('/login', fn () => Inertia::render('auth/Login'))->name('login');
+Route::post('/login', [AuthenticationSessionController::class, 'store'])->name('start');
+Route::post('/logout', [AuthenticationSessionController::class, 'destroy'])->name('logout');
+
+Route::get('/register', fn () => Inertia::render('auth/Register'))->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->name('save');
+
+
+//================= ASOCIACIONES =======================
+Route::post('/diseases/{id}/crops', 'admin\DiseaseController@associateCrops')->name('diseases.associateCrops');
