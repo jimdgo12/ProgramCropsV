@@ -28,7 +28,8 @@ class DiseaseFactory extends Factory
             'symptoms'=> $this->faker->text(300),
             'transmission'=> $this->faker->text(300),
             'type'=> $this->faker->randomElement(['Tipo A', 'Tipo B', 'Tipo C']),
-            'image' => $this->faker->imageUrl(800, 600, 'nature', true, 'disease'),
+            'image' => 'https://picsum.photos/seed/' . $this->faker->uuid . '/800/600',
+
         ];
     }
 }

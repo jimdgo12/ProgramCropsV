@@ -26,7 +26,8 @@ class FertilizerFactory extends Factory
             'dose'=> $this->faker->text(150),
             'price' => $this->faker->numberBetween(0, 100),
             'type'=> $this->faker->randomElement(['Tipo 1', 'Tipo 2', 'Tipo 3', 'Tipo 4']),
-            'image' => $this->faker->imageUrl(800, 600, 'nature', true, 'fertilizer'),
+            'image' => 'https://picsum.photos/seed/' . $this->faker->uuid . '/800/600',
+
         ];
     }
 }

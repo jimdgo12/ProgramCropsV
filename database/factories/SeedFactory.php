@@ -28,7 +28,7 @@ class SeedFactory extends Factory
             'type' => $this->faker->randomElement(['Tipo I', 'Tipo II', 'Tipo III', 'Tipo IV']),
             'quality' => $this->faker->text(50),
             'spreading' => $this->faker->text(50),
-            'image' => $this->faker->imageUrl(800, 600, 'nature', true, 'seed'),
+            'image' => 'https://picsum.photos/seed/' . $this->faker->uuid . '/800/600',
             'crop_id' => function () {
                 return Crop::inRandomOrder()->first()->id;
             }

@@ -28,7 +28,8 @@ class CropFactory extends Factory
             'phaseFertilizer' => $this->faker->text(200),
             'phaseHarvest' => $this->faker->text(200),
             'spreading' => $this->faker->text(100),
-            'image' => $this->faker->imageUrl(800, 600, 'nature', true, 'crop'),
+            'image' => 'https://picsum.photos/seed/' . $this->faker->uuid . '/800/600',
+
         ];
     }
 }

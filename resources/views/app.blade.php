@@ -3,10 +3,43 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
-    @vite('resources/js/app.js')
+
+    <title inertia>{{ config('app.name', 'Tutorial Crops') }}</title>
+
+    <link href="{{ asset('favicon.ico') }}" rel="icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Poppins:wght@200;600;700&display=swap" 
+        rel="stylesheet">
+
+    <!-- Icon Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Estilos externos -->
+    <link href="{{ asset('home/lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('home/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/style.css') }}" rel="stylesheet">
+
+    <!-- Vite -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
     @inertia
+
+    @routes
+
+    <!-- Scripts externos -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('home/lib/wow/wow.min.js') }}"></script>
+    <script src="{{ asset('home/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('home/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('home/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('home/js/main.js') }}"></script>
 </body>
 </html>

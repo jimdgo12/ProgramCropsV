@@ -26,7 +26,8 @@ class PesticideFactory extends Factory
             'price' => $this->faker->numberBetween(1, 300000),//error
             'type'=> $this->faker->randomElement(['Tipo I', 'Tipo II', 'Tipo III', 'Tipo IV']),
             'dose'=> $this->faker->text(150),
-            'image' => $this->faker->imageUrl(800, 600, 'nature', true, 'pesticide'),
+            'image' => 'https://picsum.photos/seed/' . $this->faker->uuid . '/800/600',
+
         ];
     }
 }
