@@ -18,6 +18,8 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 // Información por entidad
 Route::get('/information-crop/{id}', [IndexController::class, 'getCropInformation'])->name('informationCrop');
+Route::get('/crop/{id}', fn($id) => redirect()->route('informationCrop', ['id' => $id]));
+
 Route::get('/information-seeds/{id}', [IndexController::class, 'getSeedsInformation'])->name('informationSeeds');
 Route::get('/information-diseases/{id}', [IndexController::class, 'getDiseasesInformation'])->name('informationDiseases');
 Route::get('/information-fertilizers/{id}', [IndexController::class, 'getFertilizersInformation'])->name('informationFertilizers');

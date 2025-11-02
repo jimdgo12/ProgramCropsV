@@ -25,7 +25,7 @@ class IndexController extends Controller
      */
     public function getCropInformation($id)
     {
-        $crop = Crop::with('seeds', 'diseases', 'fertilizers')->find($id);
+        $crop = Crop::with('seeds', 'diseases', 'fertilizers')->findOrFail($id);
         return Inertia::render('home/InformationCrop', ['crop' => $crop]);
     }
 
@@ -34,7 +34,7 @@ class IndexController extends Controller
      */
     public function getSeedsInformation($id)
     {
-        $crop = Crop::with('seeds')->find($id);
+        $crop = Crop::with('seeds')->findOrFail($id);
         $seeds = $crop?->seeds ?? [];
         $seeds = array_chunk($seeds->toArray(), 3);
 
@@ -46,7 +46,7 @@ class IndexController extends Controller
      */
     public function getDiseasesInformation($id)
     {
-        $crop = Crop::with('diseases')->find($id);
+        $crop = Crop::with('diseases')->findOrFail($id);
         $diseases = $crop?->diseases ?? [];
 
         return Inertia::render('home/InformationDiseases', ['crop' => $crop, 'diseases' => $diseases]);
@@ -58,7 +58,7 @@ class IndexController extends Controller
     public function getPesticidesInformation($cropId, $diseaseId)
     {
         $crop = Crop::find($cropId);
-        $disease = Disease::with('pesticides')->find($diseaseId);
+        $disease = Disease::with('pesticides')->findOrFail($diseaseId);
         $pesticides = $disease?->pesticides ?? [];
 
         return Inertia::render('home/InformationPesticides', [
@@ -73,7 +73,7 @@ class IndexController extends Controller
      */
     public function getFertilizersInformation($id)
     {
-        $crop = Crop::with('fertilizers')->find($id);
+        $crop = Crop::with('fertilizers')->findOrFail($id);
         $fertilizers = $crop?->fertilizers ?? [];
 
         return Inertia::render('home/InformationFertilizer', [
