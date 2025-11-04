@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { route } from 'ziggy-js';
 
@@ -9,6 +9,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const currentComponent = usePage().component;
 </script>
 
 <template>
@@ -16,10 +18,34 @@ const props = defineProps({
     <!-- Slot del navbar -->
     <template #items>
       <div class="navbar-nav ms-auto">
-        <Link :href="route('informationCrop', { id: crop.id })" class="nav-item nav-link">Información</Link>
-        <Link :href="route('informationSeeds', { id: crop.id })" class="nav-item nav-link">Semillas</Link>
-        <Link :href="route('informationDiseases', { id: crop.id })" class="nav-item nav-link">Enfermedades</Link>
-        <Link :href="route('informationFertilizers', { id: crop.id })" class="nav-item nav-link">Fertilizantes</Link>
+        <Link
+          v-if="currentComponent !== 'InformationCrop'"
+          :href="route('informationCrop', { id: crop.id })"
+          class="nav-item nav-link"
+        >
+          Información
+        </Link>
+        <Link
+          v-if="currentComponent !== 'InformationSeeds'"
+          :href="route('informationSeeds', { id: crop.id })"
+          class="nav-item nav-link"
+        >
+          Semillas
+        </Link>
+        <Link
+          v-if="currentComponent !== 'InformationDiseases'"
+          :href="route('informationDiseases', { id: crop.id })"
+          class="nav-item nav-link"
+        >
+          Enfermedades
+        </Link>
+        <Link
+          v-if="currentComponent !== 'InformationFertilizers'"
+          :href="route('informationFertilizers', { id: crop.id })"
+          class="nav-item nav-link"
+        >
+          Fertilizantes
+        </Link>
       </div>
     </template>
 
@@ -30,12 +56,16 @@ const props = defineProps({
 
     <!-- Slot de la imagen -->
     <template #image>
-      <img class="img-fluid animated pulse infinite" :src="crop.image" alt="Imagen del cultivo" />
+      <img
+        class="img-fluid animated pulse infinite"
+        :src="crop.image || '/images/default-crop.jpg'"
+        alt="Imagen del cultivo"
+      />
     </template>
 
     <!-- Contenido principal -->
     <Head :title="crop.name" />
-    <section class="page-section bg-primary" id="semillas">
+    <section class="page-section bg-primary" id="information">
       <div class="container-fluid how-to-use bg-primary my-5 py-5">
         <div class="container text-white py-5">
           <div class="mx-auto text-center" style="max-width: 600px;">
